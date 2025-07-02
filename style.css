@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #fff;
+  padding: 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px 60px;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  max-width: 800px;
+  width: 100%;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  margin-bottom: 10px;
+}
+
+.submensaje {
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  color: #ffdddd;
+}
+
+.highlight {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+#countdown {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.countdown-item {
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 20px 25px;
+  border-radius: 15px;
+  min-width: 80px;
+  transition: transform 0.3s ease;
+}
+
+.countdown-item:hover {
+  transform: scale(1.05);
+}
+
+.countdown-item span {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.countdown-item small {
+  font-size: 0.9rem;
+  color: #ddd;
+  margin-top: 5px;
+  display: block;
+}
+
+.final-message {
+  font-size: 2rem;
+  color: #ffd700;
+  animation: fadeIn 1s ease-in-out;
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+
+  .countdown-item {
+    padding: 15px 20px;
+  }
+
+  .countdown-item span {
+    font-size: 2rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .submensaje {
+    font-size: 1rem;
+  }
+}
+
+/* Modo claro automático */
+@media (prefers-color-scheme: light) {
+  body {
+    background: #e5e7eb; /* gris claro moderno */
+    color: #111;
+  }
+
+  .container {
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .countdown-item {
+    background-color: #f0f0f0;
+  }
+
+  .countdown-item span {
+    color: #1e3a8a;
+  }
+
+  .countdown-item small {
+    color: #666;
+  }
+
+  .submensaje {
+    color: #333;
+  }
+
+  .final-message {
+    color: #1e3a8a;
+  }
+}
+
+

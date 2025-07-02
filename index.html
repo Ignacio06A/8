@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Cuenta Regresiva!</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>¡Lista para el <span class="highlight">8 de Julio</span>!</h1>
+    <p class="submensaje">Faltan solo unos pocos días</p>
+
+    <div id="countdown">
+      <div class="countdown-item">
+        <span id="days">00</span>
+        <small>Días</small>
+      </div>
+      <div class="countdown-item">
+        <span id="hours">00</span>
+        <small>Horas</small>
+      </div>
+      <div class="countdown-item">
+        <span id="minutes">00</span>
+        <small>Minutos</small>
+      </div>
+      <div class="countdown-item">
+        <span id="seconds">00</span>
+        <small>Segundos</small>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setupCountdown(targetDate) {
+      const days = document.getElementById('days');
+      const hours = document.getElementById('hours');
+      const minutes = document.getElementById('minutes');
+      const seconds = document.getElementById('seconds');
+      const countdown = document.getElementById('countdown');
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+          clearInterval(timer);
+          countdown.innerHTML = "<p class='final-message'>¡Es 8 de Julio! 🎉</p>";
+          confetti({
+            particleCount: 150,
+            spread: 120,
+            origin: { y: 0.6 }
+          });
+          document.title = "¡Es 8 de Julio! 🎉";
+          return;
+        }
+
+        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+        days.innerText = String(d).padStart(2, '0');
+        hours.innerText = String(h).padStart(2, '0');
+        minutes.innerText = String(m).padStart(2, '0');
+        seconds.innerText = String(s).padStart(2, '0');
+
+        document.title = `${d}d ${h}h ${m}m ${s}s - Falta poco 💖`;
+      }
+
+      const timer = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    }
+
+    setupCountdown(new Date("Jul 8, 2025 00:00:00").getTime());
+  </script>
+</body>
+</html>
