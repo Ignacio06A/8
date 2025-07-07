@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Definimos la fecha objetivo (8 de julio de 2025)
-    const targetDate = new Date("Jul 8, 2025 00:00:00").getTime();
+    const targetDate = new Date("Jul 7, 2025 14:34:00").getTime();
 
     // --- General Utility Functions ---
     function mostrarSeccion(id) {
