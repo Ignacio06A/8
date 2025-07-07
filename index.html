@@ -1,80 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>¡Cuenta Regresiva!</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¡Cuenta Regresiva!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>¡Lista para el <span class="highlight">8 de Julio</span>!</h1>
-    <p class="submensaje">Faltan solo unos pocos días</p>
+    <div class="background-particles" id="particles"></div>
 
-    <div id="countdown">
-      <div class="countdown-item">
-        <span id="days">00</span>
-        <small>Días</small>
-      </div>
-      <div class="countdown-item">
-        <span id="hours">00</span>
-        <small>Horas</small>
-      </div>
-      <div class="countdown-item">
-        <span id="minutes">00</span>
-        <small>Minutos</small>
-      </div>
-      <div class="countdown-item">
-        <span id="seconds">00</span>
-        <small>Segundos</small>
-      </div>
+    <section class="container-contador" id="countdown-section">
+        <h1>¡Lista para el <strong class="highlight">8 de Julio</strong>!</h1>
+        <p class="submensaje">Faltan solo unos pocos días</p>
+        <div class="countdown">
+            <div class="countdown-item"><span id="days">00</span><small>Días</small></div>
+            <div class="countdown-item"><span id="hours">00</span><small>Horas</small></div>
+            <div class="countdown-item"><span id="minutes">00</span><small>Minutos</small></div>
+            <div class="countdown-item"><span id="seconds">00</span><small>Segundos</small></div>
+        </div>
+    </section>
+
+    <section class="initial-message" id="anniversary-message">
+        <h2 class="subtitulo">¡Felices 3 años mi princesa hermosa!</h2>
+        <p class="p">Te amo un poquito mucho</p>
+        <button id="unlock-menu-button" class="action-button">Siguiente</button>
+    </section>
+
+<section class="menu-principal" id="main-surprise-menu">
+    <h2 class="subtitulo">¡Felices 3 años mi princesa hermosa!</h2>
+    <p class="p">Te amo un poquito mucho</p>
+    <div class="opciones">
+        <button id="trivia-button">Trivia</button>
+        <button id="constellation-button">Constelación</button>
     </div>
-  </div>
+</section>
 
-  <script>
-    function setupCountdown(targetDate) {
-      const days = document.getElementById('days');
-      const hours = document.getElementById('hours');
-      const minutes = document.getElementById('minutes');
-      const seconds = document.getElementById('seconds');
-      const countdown = document.getElementById('countdown');
+    <section id="quiz" class="surprise-section">
+        <h3>Trivia: Lista mi amor?</h3>
+        <p id="quiz-question"></p>
+        <div id="quiz-options"></div>
+        <p id="quiz-feedback"></p>
+        <button class="back-to-menu">Volver al Menú</button>
+    </section>
 
-      function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+    <section id="prize" class="surprise-section">
+        <h3>Felicidades, mi amor!</h3>
+        <p>Ganaste un <strong>vale especial</strong> que puedes usar cuando quieras:</p>
+        <div class="voucher">
+            Vale por todos los besitos y abrazos que quieras
+        </div>
+        <p>Dime cuando lo quieras usar</p>
+        <button class="back-to-menu">Volver al Menú</button>
+    </section>
 
-        if (distance < 0) {
-          clearInterval(timer);
-          countdown.innerHTML = "<p class='final-message'>¡Es 8 de Julio! 🎉</p>";
-          confetti({
-            particleCount: 150,
-            spread: 120,
-            origin: { y: 0.6 }
-          });
-          document.title = "¡Es 8 de Julio! 🎉";
-          return;
-        }
+<section id="constellation-section" class="surprise-section">
+    <h3>Nuestra Constelación de Amor</h3>
+    <p class="constellation-intro">Une todas  las estrellas</p>
 
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distance % (1000 * 60)) / 1000);
+    <div class="constellation-container">
+        <div class="star" id="star-1" data-id="1" data-index="0" style="left: 50%; top: 40%;"></div>
+        <div class="star" id="star-2" data-id="2" data-index="1" style="left: 65%; top: 25%;"></div>
+        <div class="star" id="star-3" data-id="3" data-index="2" style="left: 75%; top: 45%;"></div>
+        <div class="star" id="star-4" data-id="4" data-index="3" style="left: 25%; top: 45%;"></div>
+        <div class="star" id="star-5" data-id="5" data-index="4" style="left: 35%; top: 25%;"></div>
+        <div class="star" id="star-6" data-id="6" data-index="5" style="left: 50%; top: 75%;"></div>
+        <canvas id="constellation-canvas"></canvas>
 
-        days.innerText = String(d).padStart(2, '0');
-        hours.innerText = String(h).padStart(2, '0');
-        minutes.innerText = String(m).padStart(2, '0');
-        seconds.innerText = String(s).padStart(2, '0');
+        <div class="star-popup" id="star-popup">
+            <p class="popup-content"></p>
+            <button class="popup-close">Volver</button>
+        </div>
+    </div>
+    <button class="back-to-menu">Volver al Menú</button>
+</section>
 
-        document.title = `${d}d ${h}h ${m}m ${s}s - Falta poco 💖`;
-      }
-
-      const timer = setInterval(updateCountdown, 1000);
-      updateCountdown();
-    }
-
-    setupCountdown(new Date("Jul 8, 2025 00:00:00").getTime());
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>

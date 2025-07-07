@@ -1,147 +1,578 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Universal Box-Sizing for consistency */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Base Body Styles */
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #1e3c72, #2a5298);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #fff;
-  padding: 1rem;
-  transition: background 0.3s ease, color 0.3s ease;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1rem; /* Base responsive padding */
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-.container {
-  text-align: center;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 40px 60px;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  max-width: 800px;
-  width: 100%;
+/* --- Background Particles --- */
+.background-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 0; /* Keep it in the background */
 }
 
-h1 {
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  margin-bottom: 10px;
+.particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatAndFade 6s infinite ease-in-out;
+    width: clamp(3px, 0.5vw, 6px); /* Responsive size */
+    height: clamp(3px, 0.5vw, 6px);
 }
 
-.submensaje {
-  margin-bottom: 30px;
-  font-size: 1.1rem;
-  color: #ffdddd;
+@keyframes floatAndFade {
+    0% { transform: translateY(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
 }
 
-.highlight {
-  color: #ffd700;
-  font-weight: bold;
+/* --- Main Containers (Countdown, Menu, Initial Message, Surprise Sections) --- */
+.container-contador,
+.menu-principal,
+.initial-message,
+.surprise-section {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border-radius: 20px;
+    padding: 3rem 2rem; /* Base padding */
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    display: none; /* Default hidden */
+    flex-direction: column; /* Ensure content stacks vertically */
+    align-items: center; /* Center items horizontally within flex column */
 }
 
-#countdown {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
+/* --- Typography --- */
+h1, h2, h3 {
+    font-weight: 700;
+    color: #ffd700; /* Golden highlight */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
+}
+
+.initial-message h2,
+.menu-principal h2 {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+}
+
+.surprise-section h3 {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    color: #ff69b4; /* Pink for surprise titles */
+}
+
+.submensaje, .p { /* Added .p to target specific paragraphs */
+    color: #ffeaea;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem); /* Responsive font size */
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+.p { /* Less margin bottom for paragraphs that are not submessages */
+    margin-bottom: 1rem;
+}
+
+/* --- Countdown Section --- */
+.countdown {
+    display: flex;
+    gap: 1rem; /* Increased gap */
+    justify-content: center;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    margin-top: 1rem;
 }
 
 .countdown-item {
-  background-color: rgba(0, 0, 0, 0.25);
-  padding: 20px 25px;
-  border-radius: 15px;
-  min-width: 80px;
-  transition: transform 0.3s ease;
+    background: rgba(0, 0, 0, 0.25); /* Slightly darker */
+    border-radius: 15px;
+    padding: 1.8rem; /* More padding */
+    min-width: 110px; /* Minimum width to prevent squishing */
+    flex-basis: 120px; /* Base width, allows flex-wrap */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .countdown-item:hover {
-  transform: scale(1.05);
+    transform: translateY(-5px) scale(1.1); /* Lift and scale */
+    background-color: rgba(0, 0, 0, 0.35);
 }
 
 .countdown-item span {
-  display: block;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #fff;
+    font-size: clamp(2.8rem, 7vw, 3.5rem); /* Larger and more responsive */
+    font-weight: bold;
+    color: #fff;
+    line-height: 1; /* Keep number aligned */
+    margin-bottom: 0.5rem;
 }
 
 .countdown-item small {
-  font-size: 0.9rem;
-  color: #ddd;
-  margin-top: 5px;
-  display: block;
+    font-size: clamp(0.9rem, 2vw, 1.1rem); /* Larger and responsive */
+    color: #ddd;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.final-message {
-  font-size: 2rem;
-  color: #ffd700;
-  animation: fadeIn 1s ease-in-out;
-  padding: 20px;
+/* --- Buttons (General Styling) --- */
+button {
+    border: none;
+    padding: 1.1em 2.2em; /* Slightly more padding */
+    border-radius: 30px;
+    font-size: clamp(1rem, 2.5vw, 1.15rem); /* Responsive font size */
+    font-weight: 600; /* Semi-bold */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin: 0.75rem; /* More margin */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* General shadow */
+    white-space: nowrap; /* Prevent text wrapping inside buttons */
+    /* Ensure minimum touch target size for mobile */
+    min-width: 140px; /* A good minimum for tap targets */
+    min-height: 48px; /* Android guideline for touch targets */
 }
 
+/* Specific button styles (initial message, menu options) */
+.initial-message button,
+.opciones button {
+    background-color: #ffd700; /* Golden */
+    color: #1e3c72; /* Dark blue text */
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.initial-message button:hover,
+.opciones button:hover {
+    transform: scale(1.07);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    background-color: #ffc400; /* Slightly darker gold on hover */
+}
+
+/* WhatsApp Button */
+.whatsapp-button {
+    background-color: #25D366; /* WhatsApp green */
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.whatsapp-button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Darker shadow */
+    background-color: #1DA851; /* Darker green on hover */
+}
+
+/* --- Menu Options --- */
+.opciones {
+    display: flex;
+    flex-direction: column; /* Vertical stack */
+    gap: 1.2rem; /* More space between buttons */
+    margin: 2rem 0;
+    align-items: center;
+    width: 100%; /* Take full width of parent */
+}
+
+.opciones button {
+    width: 90%; /* Make buttons wider */
+    max-width: 400px; /* Limit max width for desktop */
+    padding: 1.2em 1.5em; /* Adjust padding for wider buttons */
+}
+
+/* --- Surprise Sections General --- */
+/* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: translateY(20px); } /* Stronger initial translateY */
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive para pantallas pequeñas */
+/* --- Letter Section --- */
+#letter-text {
+    white-space: pre-wrap; /* Preserves whitespace and line breaks */
+    background-color: rgba(255, 255, 255, 0.07);
+    padding: 2.5rem; /* More padding */
+    border-radius: 15px;
+    color: #ffd;
+    font-size: clamp(1.05rem, 2.5vw, 1.15rem);
+    max-width: 650px; /* Wider max width */
+    line-height: 1.7; /* Better readability */
+    margin: 1.5rem 0;
+    text-align: left; /* Align text left */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); /* Inner shadow */
+}
+
+/* --- Love Reasons (Lista de Razones) --- */
+.love-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+    margin: 1.5rem auto;
+}
+
+.love-list li {
+    margin-bottom: 1rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.07);
+    padding: 1.2rem 1.5rem; /* More padding */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #ff69b4; /* Accent border */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.love-list li:hover {
+    transform: translateX(5px); /* Slight shift on hover */
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Trivia Section --- */
+#quiz-question {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    color: #ffd700;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+#quiz-options {
+    display: flex;
+    flex-direction: column; /* Vertical options */
+    gap: 0.8rem; /* Space between options */
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 1.5rem;
+}
+
+#quiz-options button {
+    background-color: #fff; /* White buttons */
+    color: #1e3c72;
+    font-weight: bold;
+    padding: 0.9rem 1.8rem;
+    border-radius: 25px; /* More rounded */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#quiz-options button:hover {
+    background-color: #ffd700;
+    color: #1e3c72;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+#quiz-feedback {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    min-height: 1.5rem; /* Reserve space for feedback */
+}
+
+/* --- Prize/Voucher Section --- */
+.voucher {
+    background-color: #ffd700;
+    color: #1e3c72;
+    padding: 2rem; /* More padding */
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+    margin: 1.5rem 0;
+    line-height: 1.5;
+    max-width: 500px;
+}
+
+/* --- Back to Menu Button (General) --- */
+.back-to-menu {
+    background-color: #6c757d; /* Grey button */
+    color: white;
+    padding: 0.9em 1.8em;
+    border-radius: 25px;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    margin-top: 2rem; /* More space */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.back-to-menu:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Constelación de Amor Specifics --- */
+.constellation-intro {
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    margin-bottom: 25px;
+}
+
+.constellation-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 450px; /* Base height */
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); /* Dark starry background */
+    border-radius: 15px;
+    margin: 30px auto;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.star {
+    position: absolute;
+    width: 18px; /* Slightly larger stars */
+    height: 18px;
+    background-color: #ffd700;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px #ffd700, 0 0 15px #ffd700, 0 0 25px rgba(255, 215, 0, 0.5); /* Enhanced glow */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+}
+
+.star:hover {
+    transform: translate(-50%, -50%) scale(1.4); /* More pronounced hover */
+    background-color: #fff;
+    box-shadow: 0 0 12px #fff, 0 0 25px #fff, 0 0 35px rgba(255, 255, 255, 0.6);
+}
+
+.star.visited {
+    background-color: #8c734b; /* Dull gold/bronze for visited */
+    box-shadow: 0 0 5px #8c734b;
+    cursor: default;
+    opacity: 0.7; /* Slightly less prominent */
+}
+
+#constellation-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.star-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9); /* More opaque background for pop-up */
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Stronger border */
+    border-radius: 15px;
+    padding: 30px; /* More padding */
+    max-width: 90%;
+    width: 450px; /* Slightly wider */
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6); /* Stronger shadow */
+    z-index: 10;
+    display: none;
+    flex-direction: column;
+    gap: 18px; /* More space */
+    animation: fadeInScale 0.4s ease-out; /* Animación más notoria */
+}
+
+.star-popup .popup-content {
+    font-size: clamp(1rem, 3vw, 1.15rem);
+    color: #f5f5f5; /* Lighter text for pop-up */
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+.star-popup .popup-content strong {
+    color: #ffd700; /* Highlight memory title */
+    display: block; /* New line for strong text */
+    margin-bottom: 0.5rem;
+    font-size: 1.1em;
+}
+
+.star-popup .popup-close {
+    background-color: #ff69b4;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.star-popup .popup-close:hover {
+    background-color: #e05e9e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.constellation-complete-message {
+    font-size: clamp(1.6rem, 5.5vw, 2.8rem);
+    color: #ffd700;
+    text-shadow: 0 0 12px #ffd700, 0 0 25px rgba(255, 215, 0, 0.6);
+    margin-top: 35px;
+    opacity: 0;
+    animation: fadeInScale 1.2s forwards;
+    line-height: 1.3;
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+/* --- Responsive Adjustments --- */
+
+/* For tablets and larger phones */
+@media (max-width: 768px) {
+    body {
+        padding: 1.5rem 0.8rem;
+    }
+    .container-contador,
+    .menu-principal,
+    .initial-message,
+    .surprise-section {
+        padding: 2.5rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    h1, h2, h3 {
+        font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+    }
+    .submensaje, .p {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+    }
+    .countdown {
+        flex-direction: row; /* Keep row for 2 items on wider phones */
+        flex-wrap: wrap;
+        gap: 1rem; /* Adjust gap */
+    }
+    .countdown-item {
+        padding: 1.2rem;
+        min-width: unset; /* Let flex-basis and width handle it */
+        flex-basis: auto;
+        width: calc(50% - 0.5rem); /* Two items per row, adjusted for smaller gap */
+    }
+    .countdown-item span {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+    }
+    .countdown-item small {
+        font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+    }
+    button, .whatsapp-button {
+        font-size: clamp(0.9rem, 2.2vw, 1rem);
+        padding: 1em 1.5em;
+        min-width: 120px; /* Slightly smaller min-width for buttons on smaller screens */
+    }
+    .opciones button {
+        max-width: 100%;
+        width: 100%;
+    }
+    #letter-text, .love-list, #quiz-options, .voucher {
+        padding: 1.5rem;
+    }
+    .constellation-container {
+        height: 400px; /* Maintain good height */
+        margin: 20px auto;
+    }
+    .star-popup {
+        width: 90%;
+        padding: 25px;
+    }
+    .constellation-complete-message {
+        font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+    }
+}
+
+/* For smaller phones (e.g., ~480px and below) */
 @media (max-width: 480px) {
-  .container {
-    padding: 20px;
-  }
-
-  .countdown-item {
-    padding: 15px 20px;
-  }
-
-  .countdown-item span {
-    font-size: 2rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  .submensaje {
-    font-size: 1rem;
-  }
+    body {
+        padding: 1rem 0.5rem;
+    }
+    .container-contador,
+    .menu-principal,
+    .initial-message,
+    .surprise-section {
+        padding: 2rem 1rem;
+        margin-bottom: 1rem;
+    }
+    h1, h2, h3 {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        margin-bottom: 0.8rem;
+    }
+    .submensaje, .p {
+        font-size: clamp(0.9rem, 2.2vw, 1rem);
+        margin-bottom: 1.5rem;
+    }
+    .countdown {
+        flex-direction: column; /* Stack countdown items vertically on very small screens */
+        gap: 0.8rem;
+    }
+    .countdown-item {
+        padding: 1rem;
+        min-width: unset; /* Remove min-width to allow full width */
+        width: 100%; /* Take full width */
+    }
+    .countdown-item span {
+        font-size: clamp(1.8rem, 4.5vw, 2.2rem);
+    }
+    .countdown-item small {
+        font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+    }
+    button, .whatsapp-button {
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
+        padding: 0.8em 1.2em;
+        margin: 0.4rem;
+        min-width: unset; /* Remove minimum width */
+        width: 100%; /* Make buttons full width in options */
+    }
+    .opciones button {
+        padding: 1em 1.2em;
+    }
+    #quiz-options button {
+        width: 100%; /* Ensure quiz buttons also take full width */
+    }
+    #letter-text, .love-list li, .voucher {
+        padding: 1.2rem;
+        font-size: clamp(1rem, 2.3vw, 1.1rem);
+    }
+    .constellation-container {
+        height: 350px; /* Adjust height for smaller viewports */
+        margin: 15px auto;
+        /* Consider using aspect-ratio for more fluid height, e.g.: aspect-ratio: 1 / 1; */
+    }
+    .star {
+        width: 15px;
+        height: 15px;
+    }
+    .star-popup {
+        padding: 20px;
+        gap: 12px;
+    }
+    .star-popup .popup-content {
+        font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    }
+    .constellation-complete-message {
+        font-size: clamp(1.2rem, 4vw, 2rem);
+        margin-top: 25px;
+    }
 }
-
-/* Modo claro automático */
-@media (prefers-color-scheme: light) {
-  body {
-    background: #e5e7eb; /* gris claro moderno */
-    color: #111;
-  }
-
-  .container {
-    background: #ffffff;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  }
-
-  .countdown-item {
-    background-color: #f0f0f0;
-  }
-
-  .countdown-item span {
-    color: #1e3a8a;
-  }
-
-  .countdown-item small {
-    color: #666;
-  }
-
-  .submensaje {
-    color: #333;
-  }
-
-  .final-message {
-    color: #1e3a8a;
-  }
-}
-
-
